@@ -1,5 +1,16 @@
+import datetime as dt
 import numpy as np
+import yfinance as yf
+import pandas as pd
 
-print(np.__version__)
 
-print('hello')
+tickerlist_screener = pd.read_csv('./Data_Summary/Tickerlist_Screen.csv', header=None)
+tickerlist_screener.columns = ['Ticker']
+tickerlist = [i for i in tickerlist_screener['Ticker']]
+
+for ticker in tickerlist[:3]:
+    df = yf.download(ticker, period="max")
+    df['1d_chg'] = df['Close'].pct_change()
+    df['1d_chg_log'] = np.log(df.Close) - np.log(df.Close.shift(1))
+    df.to_csv("./Data/{}.csv".format(ticker))
+    print("./Data/{}.csv".format(ticker), "created")
