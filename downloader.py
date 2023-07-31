@@ -1,4 +1,3 @@
-import datetime as dt
 import numpy as np
 import yfinance as yf
 import pandas as pd
@@ -12,5 +11,5 @@ for ticker in tickerlist[:3]:
     df = yf.download(ticker, period="max")
     df['1d_chg'] = df['Close'].pct_change()
     df['1d_chg_log'] = np.log(df.Close) - np.log(df.Close.shift(1))
-    df.to_csv("./Data/{}.csv".format(ticker))
-    print("./Data/{}.csv".format(ticker), "created")
+    df.to_csv(f"./Data/{ticker}.csv")
+    print(f"./Data/{ticker}.csv", "created")
