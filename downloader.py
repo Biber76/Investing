@@ -4,13 +4,12 @@ from tqdm import tqdm
 import yfinance as yf
 
 tickerlist_screener = pd.read_csv('./Data_Summary/Tickerlist_Screen.csv')
-tickerlist_screener.columns = ['Ticker']
 tickerlist = [i for i in tickerlist_screener['Ticker']]
 
 missing_tickers = []
 COUNT = 1
 
-for ticker in tqdm(tickerlist[:]):
+for ticker in tqdm(tickerlist[:10]):
     
     df = yf.download(ticker, period="max")
     if len(df) < 2:
@@ -22,7 +21,6 @@ for ticker in tqdm(tickerlist[:]):
     df['1d_chg'] = df['Close'].pct_change()
     df['1d_chg_log'] = np.log(df.Close) - np.log(df.Close.shift(1))
     df.to_csv(f"./Data/{ticker}.csv")
-    print(f"./Data/{ticker}.csv", "created")
 
 print(f'The tickers that caused an error are: {missing_tickers}')
 print(f'The lenght of the DataFrame before correction is {len(tickerlist_screener)}')
