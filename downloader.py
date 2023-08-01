@@ -1,7 +1,7 @@
 import numpy as np
-import yfinance as yf
 import pandas as pd
-
+from tqdm import tqdm
+import yfinance as yf
 
 tickerlist_screener = pd.read_csv('./Data_Summary/Tickerlist_Screen.csv')
 tickerlist_screener.columns = ['Ticker']
@@ -10,7 +10,7 @@ tickerlist = [i for i in tickerlist_screener['Ticker']]
 missing_tickers = []
 COUNT = 1
 
-for ticker in tickerlist[:]:
+for ticker in tqdm(tickerlist[:]):
     
     df = yf.download(ticker, period="max")
     if len(df) < 2:
