@@ -6,7 +6,7 @@ import pandas as pd
 tickerlist_screener = pd.read_csv('./Data_Summary/Tickerlist_Screen.csv')
 tickerlist_screener.columns = ['Ticker']
 tickerlist = [i for i in tickerlist_screener['Ticker']]
-# tickerlist =['BBBY']
+
 missing_tickers = []
 COUNT = 1
 
