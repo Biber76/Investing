@@ -3,8 +3,8 @@ import pandas as pd
 from tqdm import tqdm
 import yfinance as yf
 
-tickerlist_screener = pd.read_csv('./Data_Summary/Tickerlist_Screen.csv')
-tickerlist = [i for i in tickerlist_screener['Ticker']]
+ticker_universe = pd.read_csv('./Data_Summary/Ticker_Universe.csv')
+tickerlist = [i for i in ticker_universe['Ticker']]
 
 missing_tickers = []
 COUNT = 1
@@ -23,10 +23,10 @@ for ticker in tqdm(tickerlist[:10]):
     df.to_csv(f"./Data/{ticker}.csv")
 
 print(f'The tickers that caused an error are: {missing_tickers}')
-print(f'The lenght of the DataFrame before correction is {len(tickerlist_screener)}')
+print(f'The lenght of the DataFrame before correction is {len(ticker_universe)}')
 
 for error_ticker in missing_tickers:
-    tickerlist_screener.drop(tickerlist_screener[tickerlist_screener.Ticker == error_ticker].index, inplace=True)
-print(f'The lenght of the DataFrame after correction is {len(tickerlist_screener)}')
+    ticker_universe.drop(ticker_universe[ticker_universe.Ticker == error_ticker].index, inplace=True)
+print(f'The lenght of the DataFrame after correction is {len(ticker_universe)}')
 
-tickerlist_screener.to_csv('./Data_Summary/Tickerlist_Screen.csv', index=False)
+ticker_universe.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
