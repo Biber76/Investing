@@ -27,11 +27,3 @@ class TickerUniverseUpdate():
     
     def receive_ticker_dataframes(self):
         return self.df_A, self.df_B, self.df_C
-
-ticker_universe_update = TickerUniverseUpdate()
-ticker_universe_update.update_tickers()
-df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_update.receive_ticker_dataframes()
-
-print(df_ticker_evaluation.head())
-print(df_ticker_universe.head())
-print(df_ticker_update.head())
