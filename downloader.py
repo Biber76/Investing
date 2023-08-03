@@ -4,37 +4,16 @@ import pandas as pd
 from tqdm import tqdm
 import yfinance as yf
 
+# tickers from the evaluation.csv and update.csv are added to the universe.csv
+# there is no check if those tickers work. That is done py the Downloader
 ticker_universe_update = TickerUniverseUpdate()
 ticker_universe_update.update_tickers()
 df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_update.receive_ticker_dataframes()
 
+# The Downloader downloads only one of the three df's. It starts with the df_ticker update
+# as if we want to add a new ticker, we not necessarily want to download all other tickers as well.
+# second, if the update.csv is empty, the evaluation.csv is used as we sometimes only want to calculate something
+# with a few tickers and not all of them. If both files are empty, we download all tickers to update all data.
+# If there is a download error, the universe.csv is being updated that those tickers are no longer in the universe.
 downloader = Downloader(df_ticker_universe, df_ticker_update, df_ticker_evaluation)
 downloader.download()
-
-# # ticker_universe = pd.read_csv('./Data_Summary/Ticker_Universe.csv')
-# tickerlist = [i for i in df_ticker_universe['Ticker']]
-
-# missing_tickers = []
-# COUNT = 1
-
-# for ticker in tqdm(tickerlist[:10]):
-    
-#     df = yf.download(ticker, period="max")
-#     if len(df) < 2:
-#         print(f'{COUNT}. missing ticker {ticker}')
-#         COUNT += 1
-#         missing_tickers.append(ticker)
-#         continue
-    
-#     df['1d_chg'] = df['Close'].pct_change()
-#     df['1d_chg_log'] = np.log(df.Close) - np.log(df.Close.shift(1))
-#     df.to_csv(f"./Data/{ticker}.csv")
-
-# print(f'The tickers that caused an error are: {missing_tickers}')
-# print(f'The lenght of the DataFrame before correction is {len(df_ticker_universe)}')
-
-# for error_ticker in missing_tickers:
-#     df_ticker_universe.drop(df_ticker_universe[df_ticker_universe.Ticker == error_ticker].index, inplace=True)
-# print(f'The lenght of the DataFrame after correction is {len(df_ticker_universe)}')
-
-# df_ticker_universe.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
