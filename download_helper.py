@@ -25,7 +25,7 @@ class Downloader():
                         
     def download(self):
         
-        tickerlist = [i for i in self.df['Ticker']]
+        tickerlist = [i for i in self.df['Ticker']] + ['^GSPC'] # Always download S&P as it is used for rel. strenght
 
         missing_tickers = []
         COUNT = 1
