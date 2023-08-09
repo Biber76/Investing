@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import tamb.mbindicator as mbi
 import tamb.mbsignals as mbs
-# import tamb.mbplot as mbp
+import tamb.mbplot as mbp
 
 class CreatePlotFeatures():
     
@@ -76,11 +76,11 @@ class CreatePlotFeatures():
             if df['Chart_Low_Bars_High_RSI'][-1] == 1:
                 todays_signals.append(self.ticker)
 
-            # df['Color'] = mbp.ColoredBars(df)
-            # df['TrendColor'] = mbp.TrendColor(df)
+            df['Color'] = mbp.ColoredBars(df)
+            df['TrendColor'] = mbp.TrendColor(df)
 
-            # df.to_csv('./CSV_DFs/{}'.format(self.ticker))
             return df
+        
         except:
             failed.append(self.ticker)
             print(self.ticker)

@@ -1,10 +1,12 @@
 from download_helper import Downloader, TickerUniverseUpdate
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from plotting_helper import PlotChartAsPDF
 from processing_helper import CreatePlotFeatures
 import tamb.mbindicator as mbi
 import tamb.mbsignals as mbs
-# import tamb.mbplot as mbp -> pypdf2 has to be changed to pypdf
+import tamb.mbplot as mbp # pypdf2 has to be changed to pypdf
 from tqdm import tqdm
 import yfinance as yf
 
@@ -25,4 +27,7 @@ tickerlist = downloader.return_tickerlist()
 print(tickerlist)
 
 create_ticker = CreatePlotFeatures(tickerlist[0])
-print(create_ticker.create_features().info())
+processed_df = create_ticker.create_features()
+
+plotter = PlotChartAsPDF(tickerlist[1], processed_df, lookback=150)
+plotter.create_pdf()
