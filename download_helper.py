@@ -47,6 +47,7 @@ class Downloader():
         for ticker in tqdm(tickerlist[:10]):
             
             if get_file_change_date(ticker) == datetime.today().strftime('%Y-%m-%d'):
+                print(f'The CSV file for the ticker {ticker} already exists and is up to date. No download necessary.')
                 continue
             
             df = yf.download(ticker, period="max")

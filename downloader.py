@@ -24,7 +24,7 @@ df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_upd
 downloader = Downloader(df_ticker_universe, df_ticker_update, df_ticker_evaluation)
 downloader.download()
 tickerlist = downloader.return_tickerlist()
-print(tickerlist)
+print(f'The following tickers are being plotted: {tickerlist}')
 
 for i, ticker in enumerate(tickerlist):
     create_ticker = CreatePlotFeatures(tickerlist[i])
