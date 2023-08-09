@@ -1,9 +1,9 @@
 from download_helper import Downloader, TickerUniverseUpdate
 import numpy as np
 import pandas as pd
-import tamb.mbindicator as mbi
-import tamb.mbsignals as mbs
-import tamb.mbplot as mbp
+# import tamb.mbindicator as mbi
+# import tamb.mbsignals as mbs
+# import tamb.mbplot as mbp
 from tqdm import tqdm
 import yfinance as yf
 
@@ -20,3 +20,4 @@ df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_upd
 # If there is a download error, the universe.csv is being updated that those tickers are no longer in the universe.
 downloader = Downloader(df_ticker_universe, df_ticker_update, df_ticker_evaluation)
 downloader.download()
+tickerlist = downloader.return_tickerlist()

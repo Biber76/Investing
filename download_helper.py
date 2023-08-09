@@ -51,6 +51,11 @@ class Downloader():
         print(f'The lenght of the DataFrame after correction is {len(self.df_ticker_universe)}')
 
         self.df_ticker_universe.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
+        
+    def return_tickerlist(self):
+        tickerlist = [i for i in self.df['Ticker']] + ['^GSPC'] # Always download S&P as it is used for rel. strenght
+        return tickerlist
+
 
 class TickerUniverseUpdate():
     
