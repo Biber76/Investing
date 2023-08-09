@@ -26,8 +26,9 @@ downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(tickerlist)
 
-create_ticker = CreatePlotFeatures(tickerlist[0])
-processed_df = create_ticker.create_features()
+for i, ticker in enumerate(tickerlist):
+    create_ticker = CreatePlotFeatures(tickerlist[i])
+    processed_df = create_ticker.create_features()
 
-plotter = PlotChartAsPDF(tickerlist[1], processed_df, lookback=150)
-plotter.create_pdf()
+    plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
+    plotter.create_pdf()

@@ -1,7 +1,21 @@
+from datetime import datetime
 import numpy as np
+import os
 import pandas as pd
+import time
 from tqdm import tqdm
 import yfinance as yf
+
+def get_file_change_date(file):
+    try:
+        change_timestamp = os.path.getmtime(f'./Data/{file}.csv')
+        change_date = time.strftime('%Y-%m-%d', time.localtime(change_timestamp))
+        return change_date
+    except FileNotFoundError:
+        return "File not found"
+    except Exception as e:
+        return f"An error occurred: {e}"
+        
 
 class Downloader():
     
@@ -31,6 +45,9 @@ class Downloader():
         COUNT = 1
 
         for ticker in tqdm(tickerlist[:10]):
+            
+            if get_file_change_date(ticker) == datetime.today().strftime('%Y-%m-%d'):
+                continue
             
             df = yf.download(ticker, period="max")
             if len(df) < 2:
@@ -84,3 +101,4 @@ class TickerUniverseUpdate():
     
     def receive_ticker_dataframes(self):
         return self.df_A, self.df_B, self.df_C
+    
