@@ -52,7 +52,7 @@ class Downloader():
             
             df = yf.download(ticker, period="max")
             if len(df) < 2:
-                print(f'{COUNT}. missing ticker {ticker}')
+                print(f'The {COUNT}. missing ticker {ticker}')
                 COUNT += 1
                 missing_tickers.append(ticker)
                 continue
@@ -65,7 +65,11 @@ class Downloader():
         print(f'The lenght of the DataFrame before correction is {len(self.df_ticker_universe)}')
 
         for error_ticker in missing_tickers:
+            print(f'The ticker {error_ticker} is deleted from the Universe')
+            print(self.df_ticker_universe)
             self.df_ticker_universe.drop(self.df_ticker_universe[self.df_ticker_universe.Ticker == error_ticker].index, inplace=True)
+            print(self.df_ticker_universe)
+            self.df.drop(self.df[self.df.Ticker == error_ticker].index, inplace=True)
         print(f'The lenght of the DataFrame after correction is {len(self.df_ticker_universe)}')
 
         self.df_ticker_universe.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
@@ -86,20 +90,25 @@ class TickerUniverseUpdate():
     def update_tickers(self):
         # if there are new tickers, we first add them to the existing universe
         if len(self.df_B) > 0:
+            print(f'Universe before adding tickers {len(self.df_A)}')
             df_D = pd.concat([self.df_A, self.df_B])
-            self.df_A = df_D.drop_duplicates()
-            self.df_A.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
-            del df_D
+            self.df_merge1 = df_D.drop_duplicates().reset_index(drop=True)
+            print(self.df_merge1)
+            print(f'Universe after adding ticker Update.csv {len(self.df_merge1)}')
+            self.df_merge1.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
             print('Ticker universe is being updated with Ticker_Update.csv!')
 
         # if there are tickers to evaluate, we add them to the existing universe
         if len(self.df_C) > 0:
-            df_D = pd.concat([self.df_A, self.df_C])
-            self.df_A = df_D.drop_duplicates()
-            self.df_A.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
-            del df_D
+            print(f'Universe before adding tickers {len(self.df_merge1)}')
+            df_E = pd.concat([self.df_merge1, self.df_C])
+            self.df_merge2 = df_E.drop_duplicates().reset_index(drop=True)
+            print(f'Universe after adding ticker Evaluation.csv {len(self.df_merge2)}')
+            self.df_merge2.to_csv('./Data_Summary/Ticker_Universe_old.csv', index=False)
+            self.df_merge2.to_csv('./Data_Summary/Ticker_Universe.csv', index=False)
             print('Ticker universe is being updated with Ticker_Evaluation.csv!')
     
     def receive_ticker_dataframes(self):
-        return self.df_A, self.df_B, self.df_C
+        print(len(self.df_merge2), len(self.df_B), len(self.df_C))
+        return self.df_merge2, self.df_B, self.df_C
     

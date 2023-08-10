@@ -31,16 +31,16 @@ downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(f'The following tickers are being plotted: {tickerlist}')
 
-for i, ticker in enumerate(tickerlist):
-    create_ticker = CreatePlotFeatures(tickerlist[i])
-    processed_df = create_ticker.create_features()
+# for i, ticker in enumerate(tickerlist):
+#     create_ticker = CreatePlotFeatures(tickerlist[i])
+#     processed_df = create_ticker.create_features()
 
-    plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
-    plotter.create_pdf()
+#     plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
+#     plotter.create_pdf()
 
-path = './PDF_output/'
-file_name_pdf = 'Merged.pdf'
-output_folder = 'C:\Python\Projects\Investing\PDF_merged'
+# path = './PDF_output/'
+# file_name_pdf = 'Merged.pdf'
+# output_folder = 'C:\Python\Projects\Investing\PDF_merged'
 
-pdfmerger = PDFMerger(path, file_name_pdf, output_folder)
-pdfmerger.merge_pdf_list()
+# pdfmerger = PDFMerger(path, file_name_pdf, output_folder)
+# pdfmerger.merge_pdf_list()
