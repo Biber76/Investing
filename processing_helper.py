@@ -83,7 +83,7 @@ class CreatePlotFeatures():
         
         except:
             failed.append(self.ticker)
-            print(self.ticker)
+            print(f'{self.ticker} can not be processed')
 
         
     def return_ticker(self):

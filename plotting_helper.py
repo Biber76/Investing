@@ -15,4 +15,4 @@ class PlotChartAsPDF():
             mbp.mbPlot(self.ticker, self.df, self.lookback)
             print(f'{self.ticker} is plotted')
         except:
-            print(self.ticker)
+            print(f'{self.ticker} can not be plotted')
