@@ -6,7 +6,7 @@ import time
 from tqdm import tqdm
 import yfinance as yf
 
-def get_file_change_date(file):
+def get_csv_file_change_date(file):
     try:
         change_timestamp = os.path.getmtime(f'./Data/{file}.csv')
         change_date = time.strftime('%Y-%m-%d', time.localtime(change_timestamp))
@@ -46,7 +46,7 @@ class Downloader():
 
         for ticker in tqdm(tickerlist[:10]):
             
-            if get_file_change_date(ticker) == datetime.today().strftime('%Y-%m-%d'):
+            if get_csv_file_change_date(ticker) == datetime.today().strftime('%Y-%m-%d'):
                 print(f'The CSV file for the ticker {ticker} already exists and is up to date. No download necessary.')
                 continue
             

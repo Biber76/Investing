@@ -1,3 +1,4 @@
+from datetime import datetime
 from download_helper import Downloader, TickerUniverseUpdate
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,9 +6,11 @@ import os
 import pandas as pd
 from plotting_helper import PlotChartAsPDF
 from processing_helper import CreatePlotFeatures
+from publishing_helper import PDFMerger
 import tamb.mbindicator as mbi
 import tamb.mbsignals as mbs
 import tamb.mbplot as mbp # pypdf2 has to be changed to pypdf
+import time
 from tqdm import tqdm
 import yfinance as yf
 
@@ -27,16 +30,16 @@ downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(f'The following tickers are being plotted: {tickerlist}')
 
-# for i, ticker in enumerate(tickerlist):
-#     create_ticker = CreatePlotFeatures(tickerlist[i])
-#     processed_df = create_ticker.create_features()
+for i, ticker in enumerate(tickerlist):
+    create_ticker = CreatePlotFeatures(tickerlist[i])
+    processed_df = create_ticker.create_features()
 
-#     plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
-#     plotter.create_pdf()
+    plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
+    plotter.create_pdf()
 
-# download list of all files in a directory
 path = './PDF_output/'
-InputPDFs = os.listdir(path)
-print(InputPDFs)
+file_name_pdf = 'Merged.pdf'
+output_folder = 'C:\Python\Projects\Investing\PDF_merged'
 
-mbp.merge_pdfs(InputPDFs, 'Merged.pdf', 'C:\Python\Projects\Investing\PDF_merged')
+pdfmerger = PDFMerger(path, file_name_pdf, output_folder)
+pdfmerger.merge_pdf_list()
