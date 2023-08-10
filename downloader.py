@@ -1,6 +1,7 @@
 from download_helper import Downloader, TickerUniverseUpdate
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import pandas as pd
 from plotting_helper import PlotChartAsPDF
 from processing_helper import CreatePlotFeatures
@@ -26,9 +27,16 @@ downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(f'The following tickers are being plotted: {tickerlist}')
 
-for i, ticker in enumerate(tickerlist):
-    create_ticker = CreatePlotFeatures(tickerlist[i])
-    processed_df = create_ticker.create_features()
+# for i, ticker in enumerate(tickerlist):
+#     create_ticker = CreatePlotFeatures(tickerlist[i])
+#     processed_df = create_ticker.create_features()
 
-    plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
-    plotter.create_pdf()
+#     plotter = PlotChartAsPDF(tickerlist[i], processed_df, lookback=250)
+#     plotter.create_pdf()
+
+# download list of all files in a directory
+path = './PDF_output/'
+InputPDFs = os.listdir(path)
+print(InputPDFs)
+
+mbp.merge_pdfs(InputPDFs, 'Merged.pdf', 'C:\Python\Projects\Investing\PDF_merged')
