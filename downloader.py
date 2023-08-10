@@ -24,8 +24,9 @@ df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_upd
 # as if we want to add a new ticker, we not necessarily want to download all other tickers as well.
 # second, if the update.csv is empty, the evaluation.csv is used as we sometimes only want to calculate something
 # with a few tickers and not all of them. If both files are empty, we download all tickers to update all data.
-# If there is a download error, the universe.csv is being updated that those tickers are no longer in the universe.
 downloader = Downloader(df_ticker_universe, df_ticker_update, df_ticker_evaluation)
+# check for each ticker if csv file already exists. If not then 
+# If there is a download error, the universe.csv is being updated that those tickers are no longer in the universe.
 downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(f'The following tickers are being plotted: {tickerlist}')
