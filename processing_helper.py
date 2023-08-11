@@ -17,15 +17,15 @@ class CreatePlotFeatures():
         try:
             df = pd.read_csv('./Data/{}.csv'.format(self.ticker), parse_dates=True, index_col='Date')
             
-            df['ema15'] = df['Close'].ewm(span=15, adjust=False).mean()
-            df['ema45'] = df['Close'].ewm(span=45, adjust=False).mean()
-            df['ema120'] = df['Close'].ewm(span=120, adjust=False).mean()
+            df['ema20'] = df['Close'].ewm(span=20, adjust=False).mean()
+            df['ema75'] = df['Close'].ewm(span=75, adjust=False).mean()
+            df['ema144'] = df['Close'].ewm(span=144, adjust=False).mean()
 
-            df['rising_ema45'] = (df['ema45'] > df['ema45'].shift(1)).astype(int)
-            df['rising_ema120'] = (df['ema120'] > df['ema120'].shift(1)).astype(int)
-            df['rising_Signal_ema'] = df.apply((lambda row: 2 if row.rising_ema120 == 1 and row.rising_ema45 == 1 \
-                else 1 if row.rising_ema120 == 1 and row.rising_ema45 == 0 \
-                else -1 if row.rising_ema120 == 0 and row.rising_ema45 == 1 \
+            df['rising_ema20'] = (df['ema20'] > df['ema20'].shift(1)).astype(int)
+            df['rising_ema75'] = (df['ema75'] > df['ema75'].shift(1)).astype(int)
+            df['rising_Signal_ema'] = df.apply((lambda row: 2 if row.rising_ema75 == 1 and row.rising_ema20 == 1 \
+                else 1 if row.rising_ema75 == 1 and row.rising_ema20 == 0 \
+                else -1 if row.rising_ema75 == 0 and row.rising_ema20 == 1 \
                 else -2), axis=1)
             df['rising_Signal_ema_TwoStage'] = mbi.TwoStageMovingAverageSignal(df)
 
@@ -33,7 +33,7 @@ class CreatePlotFeatures():
             df['RSIdouble'] = mbi.RSIdouble(list(df.Close), 14)
 
             df['Stoch_D_slow'] = mbi.StochS(df, 5, 2, 3)
-            df['Stoch_D_slow_LT'] = mbi.StochS(df, 14, 3, 3)
+            df['Stoch_D_slow_LT'] = mbi.StochS(df, 22, 3, 5)
 
             df['SentimentIndicator_3'] = mbi.SentimentIndicator(df, 3)
             df['SentimentIndicator_7'] = mbi.SentimentIndicator(df, 7)
