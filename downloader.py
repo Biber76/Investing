@@ -31,7 +31,7 @@ downloader.download()
 tickerlist = downloader.return_tickerlist()
 print(f'The following tickers are being plotted: {tickerlist}')
 
-for i, ticker in enumerate(tickerlist):
+for i, ticker in enumerate(tqdm(tickerlist)):
     create_ticker = CreatePlotFeatures(tickerlist[i])
     processed_df = create_ticker.create_features()
 
