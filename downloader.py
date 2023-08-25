@@ -17,3 +17,4 @@ df_ticker_universe, df_ticker_update, df_ticker_evaluation = ticker_universe_upd
 # If there is a download error, the universe.csv is being updated that those tickers are no longer in the universe.
 downloader = Downloader(df_ticker_universe, df_ticker_update, df_ticker_evaluation)
 downloader.download()
+
